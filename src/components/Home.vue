@@ -17,10 +17,8 @@
     </div>
   </div>
   <div class="flex flex-grow container mx-auto m-2">
-    <aside id="sidebar" class="flex-none bg-white p-4 ml-2 shadow-sm rounded-lg w-1/5 max-w-sm">
-      <section class="">Room1</section>
-    </aside>
-    <div id="sidebar" class="flex-grow bg-white p-2 ml-2 shadow-sm rounded-lg max-w-3xl">
+    <SideBar />
+    <div class="flex-grow bg-white p-2 ml-2 shadow-sm rounded-lg max-w-3xl">
       <section class="flex h-full flex-col">
         <div class="flex-grow bg-blueGray-100 rounded-md mb-3 p-3">
           msgs
@@ -39,6 +37,7 @@
 
 <script setup>
 import { defineProps, reactive } from 'vue'
+import SideBar from './SideBar.vue'
 
 defineProps({
   msg: String

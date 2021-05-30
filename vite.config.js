@@ -8,6 +8,6 @@ export default defineConfig({
     outDir: '/IdeaProjects/chatroom/src/main/resources/public',
   },
   server : {
-    host : '0.0.0.0'
+    host : '0.0.0.0',
   }
 })

@@ -7,7 +7,5 @@ export default defineConfig({
   build : {
     outDir: '/IdeaProjects/chatroom/src/main/resources/public',
   },
-  server : {
-    host : '0.0.0.0',
-  }
+
 })

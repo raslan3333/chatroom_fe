@@ -8,11 +8,20 @@
   },
   "dependencies": {
     "@stomp/stompjs": "^6.1.0",
+    "axios": "^0.21.1",
+    "js-cookie": "^2.2.1",
     "vue": "^3.0.5",
+    "vue-axios": "^3.2.4",
+    "vue-router": "^4.0.8",
+    "vuex": "^4.0.0-0",
+    "vuex-persistedstate": "^4.0.0-beta.3",
     "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.2",
+    "@vue/cli-plugin-router": "^4.5.13",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "^4.5.13",
     "@vue/compiler-sfc": "^3.0.5",
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.35",

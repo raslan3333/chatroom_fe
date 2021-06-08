@@ -1,9 +1,17 @@
-<template>
-  <Home />
+<template >
+    <router-view></router-view>
+<!--  <Test/>-->
 </template>
 
-<script setup>
-import Home from './components/Home.vue'
+<script >
+import Test from './components/Test.vue'
+import Login from './components/Login.vue'
+export default {
+  name: "App",
+  components: {
+    Test,
+  }
+}
 
 </script>
 

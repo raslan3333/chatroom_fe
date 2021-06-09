@@ -9,7 +9,7 @@ export default createStore({
         username: "",
         password: "",
         token: "",
-        rooms: {},
+        rooms: [],
         currentRoom:0,
         messages: {}
     },

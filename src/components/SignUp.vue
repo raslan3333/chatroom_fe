@@ -6,12 +6,7 @@
       <div class="h-screen flex justify-center items-center bg-blueGray-100">
         <div class="bg-white w-96 rounded-md shadow-sm p-3">
           <div class="flex flex-col place-content-between">
-            <h2 class="flex justify-center items-center m-2 text-xl font-semibold">Login</h2>
-            <div class="bg-red-100 border border-red-400 text-red-700 px-1 py-1 rounded relative" role="alert">
-              <strong class="font-bold">Holy smokes!</strong>
-              <span class=" sm:inline">Something seriously bad happened</span>
-              <span class="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
-            </div>
+            <h2 class="flex justify-center items-center m-2 text-xl font-semibold">Sign Up</h2>
             <div class="flex flex-col">
               <div>
                 <label>
@@ -91,10 +86,8 @@ export default {
           this.$router.push("/")
         }
       })
-
     }
   },
-
 }
 </script>
 

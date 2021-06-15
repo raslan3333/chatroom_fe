@@ -11,7 +11,7 @@ export default createStore({
         token: "",
         rooms: [],
         currentRoom:0,
-        messages: {}
+        messages: []
     },
     mutations: {
         setToken(state, payload){
@@ -36,11 +36,11 @@ export default createStore({
         async login(state, payload){
             state.username=payload.username,
             state.password= payload.password
-            await axios.post("http://localhost:8080/login", {
+            await axios.post("/login", {
                 "username": state.username,
                 "password": state.password
             }, {
-                withCredentials: true
+                withCredentials: false
             }).then(value => {
                 state.dispatch("setToken", value.data["Authorization"])
                 state.dispatch("setRooms")
@@ -51,7 +51,7 @@ export default createStore({
             state.commit("setToken", payload)
         },
         async setRooms(state){
-            const data = await axios.get("http://localhost:8080/getRooms",
+            const data = await axios.get("/getRooms",
                 {
                     headers: {
                         'Authorization': state.token
@@ -84,7 +84,7 @@ export default createStore({
     plugins: [
         createPersistedState({
             getState: (key) => Cookies.getJSON(key),
-            setState: (key, state) => Cookies.set(key, state, { expires: 1000, secure: true })
+            setState: (key, state) => Cookies.set(key, state, { expires: 1000 })
         })
     ]
 })

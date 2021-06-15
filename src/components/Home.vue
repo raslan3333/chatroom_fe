@@ -1,4 +1,5 @@
-<template class="">
+
+<template >
   <div class="h-screen flex flex-col bg-blueGray-100 overflow-clip">
     <div class="">
       <div class="bg-white shadow-md h-12">
@@ -18,10 +19,11 @@
         </div>
       </div>
     </div>
+
     <div class="h-0.5 bg-rose-600"></div>
     <div class="flex h-5/6 container mx-auto m-2">
       <!--SideBar-->
-      <aside id="sidebar" class="bg-white p-2 ml-2 shadow-sm rounded-lg w-1/5 max-w-sm ">
+      <aside id="sidebar" class="bg-white hidden sm:block p-2 ml-2 shadow-sm rounded-lg w-1/5 max-w-sm ">
         <section class="h-1/2 overflow-scroll" >
           <div :class="room.style" class="w-11/12 h-10 shadow-sm
       rounded-md cursor-pointer flex pl-3 items-center mb-2" @click="select(room.id)" v-for="room in rooms" :key="room.id">{{room.roomName}}</div>
@@ -35,15 +37,15 @@
         <section class="flex flex-grow-0 h-5/6 bg-blueGray-100 overflow-scroll flex-col">
           <div class="mb-3 p-3 ">
             <div v-for="message in messages">
-                <div  class="w-full p-2 bg-white rounded-xl cursor-pointer grid grid-cols-12 pl-1  mb-2">
-                  <div class="h-8 flex items-center justify-center mr-4 col-start-auto col-span-2 px-9 border border-blueGray-300 text-blueGray-900 rounded-full">
-                    {{message.userEntity.username}}
-                  </div>
-                  <div class="col-start-3 col-span-10">
-                    {{message.content}}
-                  </div>
-
+              <div  class="w-full p-2 bg-white rounded-xl cursor-pointer grid grid-cols-12 pl-1  mb-2">
+                <div class="h-8 flex items-center justify-center mr-4 col-start-auto col-span-2 px-9 border border-blueGray-300 text-blueGray-900 rounded-full">
+                  {{message.userEntity.username}}
                 </div>
+                <div class="col-start-3  col-span-8">
+                  {{message.content}}
+                </div>
+                <div class="text-xs text-gray-600">{{}}</div>
+              </div>
             </div>
           </div>
         </section>
@@ -68,9 +70,9 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default  {
   name: "Home",
-
   data (){
     return {
+      now: new Date(),
       user: "",
       test: "test",
       stompClient: null,
@@ -88,27 +90,20 @@ export default  {
   methods: {
     ...mapActions(['setRooms', "setMessages"]),
     async addRoom(){
-      await axios.post('http://localhost:8080/newroom',{
-        roomName: this.newRoom
-      }, {
-        headers: {
-          Authorization: this.$store.getters.getToken
-        }
-      }).catch(error => {
-        console.log(error.response)
-      })
-      await this.setRooms()
-      await this.getAllRooms()
-      this.newRoom="";
+      if (this.newRoom){
+        await axios.post('/newroom',{
+          roomName: this.newRoom
+        }).catch(error => {
+          console.log(error.response)
+        })
+        await this.setRooms()
+        await this.getAllRooms()
+        this.newRoom="";
+      }
+
     },
     async select(id){
-
-      const data =await axios.get("http://localhost:8080/getMessages/"+id,
-          {
-            headers: {
-              Authorization: this.$store.getters.getToken
-            }
-          }
+      const data =await axios.get("/getMessages/"+id
       ).then(value => value.data)
       this.messages = await data
       await this.setMessages(this.messages)
@@ -129,20 +124,17 @@ export default  {
       this.rooms= this.getRooms
     },
     async logout(){
-      await axios.post("http://localhost:8080/logout" )
+      await axios.post("/logout" )
       await this.$store.dispatch("setIsLoggedIn", false)
       await this.$store.dispatch("setToken", "")
       await this.$router.push("/login")
-
     },
-
     send(){
       if (this.stompClient&& this.stompClient.connected && this.msg) {
         const message = {
           content: this.msg,
           roomId: this.roomId,
           userId: this.userId,
-
         };
         this.stompClient.send("/app/chatroom", JSON.stringify(message), {});
         this.msg="";
@@ -151,21 +143,22 @@ export default  {
     async connect() {
       await this.setRooms()
       await this.getAllRooms();
-      await axios.get("http://localhost:8080/users",
+
+      await axios.get("/users",
           {
             headers: {
               'Authorization': this.$store.getters.getToken
             }
           }
       ).then(value => this.userId=value.data.id)
-      this.socket =  SockJS('http://localhost:8080/ws-endpoint');
-       this.stompClient = Stomp.over(this.socket);
-       this.stompClient.connect(
+      this.socket =  SockJS(axios.defaults.baseURL+'/ws-endpoint');
+      this.stompClient = Stomp.over(this.socket);
+      this.stompClient.connect(
           {},
           frame => {
             this.connected = true;
             this.stompClient.subscribe("/topic/messages", tick => {
-               this.messages.push(JSON.parse(tick.body));
+              this.messages.push(JSON.parse(tick.body));
             });
           },
           error => {
@@ -178,14 +171,15 @@ export default  {
   computed: {
     ...mapGetters(['getRooms', 'getToken', 'getMessages']),
   },
-   created() {
+  created() {
   },
   mounted() {
     this.messages = this.getMessages
-    this.connect();
+    if (this.getToken !== "") {
+      this.connect();
+    }
   }
 }
-
 
 
 </script>

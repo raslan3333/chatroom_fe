@@ -23,6 +23,11 @@ const routes = [
         }
     },
     {
+        path: '/error',
+        name: 'Error',
+        component: Error,
+    },
+    {
         path: '/signup',
         name: 'SignUp',
         component: SignUp,
@@ -46,9 +51,17 @@ const routes = [
             }
         }
     },
-
-
-
+    {
+    path: '/:pathMatch(.*)*',
+    component: Home,
+    beforeEnter: (to, from, next) => {
+            if (store.getters.getIsLoggedIn) {
+                next()
+            } else {
+                next("/login")
+            }
+        }
+    },
 ]
 const router = createRouter({
     history: createWebHistory(),

@@ -1,7 +1,7 @@
 <template>
 
 
-  <form @submit.prevent="signup">
+
     <div class="flex flex-col ">
       <div class="h-screen flex justify-center items-center bg-blueGray-100">
         <div class="bg-white w-96 rounded-md shadow-sm p-3">
@@ -30,7 +30,7 @@
                        class="w-full h-10 border border-2 bg-gray-50-50 mt-1 outline-none rounded-md pl-3 mb-2"/>
               </div>
             </div>
-            <button type="submit" class=" w-full h-10 shadow-sm bg-red-200 rounded-md cursor-pointer
+            <button @click="signup" class=" w-full h-10 shadow-sm bg-red-200 rounded-md cursor-pointer
                         flex pl-3 items-center justify-center mb-2 font-semibold"
             >SIGN UP
             </button>
@@ -45,7 +45,7 @@
       </div>
 
     </div>
-  </form>
+
 </template>
 
 <script>
@@ -66,17 +66,17 @@ export default {
       this.$router.push("/login")
     },
     async signup() {
-      await axios.post("http://localhost:8080/users/signup", {
+      await axios.post("/users/signup", {
         "username": this.username,
         "password": this.password
       }, {
-        withCredentials: true
+        withCredentials: false
       }).then(value => console.log(value.data))
-      await axios.post("http://localhost:8080/login", {
+      await axios.post("/login", {
         "username": this.username,
         "password": this.password
       }, {
-        withCredentials: true,
+        withCredentials: false,
       }).then(value => {
         console.log(value.data)
         this.token= value.data["Authorization"]

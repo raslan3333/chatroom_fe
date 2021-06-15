@@ -1,15 +1,15 @@
 <template >
-    <router-view></router-view>
-<!--  <Test/>-->
+    <router-view class="sm:block hidden"></router-view>
+<!--  <MobileHome class="sm:hidden block"/>-->
 </template>
 
 <script >
-import Test from './components/Test.vue'
+import MobileHome from './components/MobileHome.vue'
 import Login from './components/Login.vue'
 export default {
   name: "App",
   components: {
-    Test,
+    MobileHome
   }
 }
 

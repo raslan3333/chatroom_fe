@@ -5,10 +5,10 @@
         <div class="flex flex-col place-content-between h-full h-4/5 ">
           <h2 class="flex justify-center items-center m-2 text-xl font-semibold">Login</h2>
           <div class="flex flex-col ">
-            <input  v-model="data.username" type="text" name="username" class="w-full h-10 border border-2 bg-gray-50-50 mt-3 outline-none rounded-md pl-3 mb-2"/>
+            <input v-model="data.username" type="text" name="username" class="w-full h-10 border border-2 bg-gray-50-50 mt-3 outline-none rounded-md pl-3 mb-2"/>
             <input v-model="data.password" type="password" name="password" class="w-full h-10 border border-2 bg-gray-50-50 mt-3 outline-none rounded-md pl-3 mb-2"/>
           </div>
-          <button type="submit" class=" w-full h-10 shadow-sm bg-emerald-200 rounded-md cursor-pointer
+          <button  @click="signIn" class=" w-full h-10 shadow-sm bg-emerald-200 rounded-md cursor-pointer
                         flex pl-3 items-center justify-center mb-2 font-semibold"
           >LOGIN
           </button>
@@ -20,14 +20,11 @@
       </div>
     </div>
   </form>
-</template>
 
+</template>
 <script>
 
-import axios from 'axios';
 import {mapActions, mapGetters} from "vuex/dist/vuex.mjs";
-
-
 
 export default {
   name: "Login",
@@ -40,7 +37,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      'setRooms',
       'login'
     ]),
      async signIn(){
@@ -52,7 +48,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(["getRooms"]),
+
   }
 
 
